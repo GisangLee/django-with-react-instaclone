@@ -1,3 +1,12 @@
-.AppHeader {
-  background-color: lightpink;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-area: header;
+  .header__title {
+  }
+  .header__search {
+  }
+  .header__topnav {
+  }
 }

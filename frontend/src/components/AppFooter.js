@@ -2,7 +2,7 @@ import React from "react";
 import "./AppFooter.scss";
 
 function AppFooter() {
-  return <div className="AppFooter">App Footer</div>;
+  return <div className="footer">&copy; 2020. DaeLee</div>;
 }
 
 export default AppFooter;

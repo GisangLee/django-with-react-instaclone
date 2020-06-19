@@ -1,0 +1,16 @@
+.app {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "header header header"
+    "contents contents sidebar"
+    "footer footer footer";
+  width: 1024px;
+  max-width: 100%;
+  margin: 10px auto;
+}
+
+.contents {
+  grid-area: contents;
+}
