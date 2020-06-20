@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { Card, notification } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import Suggestion from "./Suggestion";
+import Axios from "axios";
 import useAxios from "axios-hooks";
 import { useAppContext } from "../store";
 import "./SuggestionList.scss";
@@ -29,11 +30,19 @@ const SuggestionList = ({ style }) => {
   }, [origUserList]);
 
   const onFollowUser = (username) => {
-    setUserList((prevUserList) =>
-      prevUserList.map((user) =>
-        user.username !== username ? user : { ...user, is_follow: true }
-      )
-    );
+    const data = { username };
+    const confing = { headers };
+    Axios.post("http://localhost:8000/accounts/follow/", data, confing)
+      .then((reponse) => {
+        setUserList((prevUserList) =>
+          prevUserList.map((user) =>
+            user.username !== username ? user : { ...user, is_follow: true }
+          )
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   return (
