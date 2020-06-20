@@ -3,8 +3,8 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button } from "antd";
 import "./Suggestion.scss";
 
-const Suggestion = ({ suggestionUser }) => {
-  const { username, name, avatar_url } = suggestionUser;
+const Suggestion = ({ suggestionUser, onFollowUser }) => {
+  const { username, name, avatar_url, is_follow } = suggestionUser;
 
   return (
     <div className="suggestion">
@@ -22,7 +22,12 @@ const Suggestion = ({ suggestionUser }) => {
         {name.length === 0 ? username : name}
       </div>
       <div className="suggestion__btn">
-        <Button danger>Follow</Button>
+        {is_follow && "팔로잉 중"}
+        {!is_follow && (
+          <Button size="small" onClick={() => onFollowUser(username)}>
+            Follow
+          </Button>
+        )}
       </div>
     </div>
   );

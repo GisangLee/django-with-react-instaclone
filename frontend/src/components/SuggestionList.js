@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Card, notification } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import Suggestion from "./Suggestion";
@@ -11,14 +11,30 @@ const SuggestionList = ({ style }) => {
     store: { jwtToken },
   } = useAppContext();
 
+  const [userList, setUserList] = useState([]);
+
   const headers = { Authorization: `JWT ${jwtToken}` };
 
   const apiUrl = "http://localhost:8000/accounts/suggestions/";
 
-  const [{ data: userList, loading, error }, refetch] = useAxios({
+  const [{ data: origUserList, loading, error }, refetch] = useAxios({
     url: apiUrl,
     headers,
   });
+
+  useEffect(() => {
+    if (!origUserList) setUserList([]);
+    else
+      setUserList(origUserList.map((user) => ({ ...user, is_follow: false })));
+  }, [origUserList]);
+
+  const onFollowUser = (username) => {
+    setUserList((prevUserList) =>
+      prevUserList.map((user) =>
+        user.username !== username ? user : { ...user, is_follow: true }
+      )
+    );
+  };
 
   return (
     <div style={style}>
@@ -36,6 +52,7 @@ const SuggestionList = ({ style }) => {
             <Suggestion
               key={suggestionUser.username}
               suggestionUser={suggestionUser}
+              onFollowUser={onFollowUser}
             />
           ))}
       </Card>
