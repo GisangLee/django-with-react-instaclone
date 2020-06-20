@@ -14,10 +14,7 @@ export default function Signup() {
       setFieldErrors({});
       const data = { username, password };
       try {
-        const response = await axios.post(
-          "http://localhost:8000/accounts/signup/",
-          data
-        );
+        await axios.post("http://localhost:8000/accounts/signup/", data);
         notification.open({
           message: "회원가입을 축하합니다~❤",
           description:
@@ -39,12 +36,11 @@ export default function Signup() {
           setFieldErrors(
             Object.entries(fieldsErrorMessages).reduce(
               (acc, [fieldName, errors]) => {
-                console.log("acc : ", acc);
-                console.log("filedName : ", fieldName);
-                console.log("errors : ", errors);
+                console.log("errors:", errors);
+                // errors : ["m1", "m2"].join(" ") => "m1 "m2"
                 acc[fieldName] = {
                   validateStatus: "error",
-                  help: errors.join(" "),
+                  help: errors,
                 };
                 return acc;
               },

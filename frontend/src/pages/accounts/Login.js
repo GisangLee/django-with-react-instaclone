@@ -36,7 +36,8 @@ export default function Login() {
           description: "커플에 오신 것을 환영합니다.",
           icon: <HeartFilled style={{ color: "#108ee9" }} />,
         });
-        history.push(loginRedirectUrl);
+        console.log(loginRedirectUrl);
+        history.push("/");
       } catch (error) {
         if (error.response) {
           notification.open({
