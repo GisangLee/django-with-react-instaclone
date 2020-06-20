@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Alert, Form, Input, Button, notification, Card } from "antd";
 import { HeartFilled, FrownOutlined } from "@ant-design/icons";
 import { useAppContext, setToken } from "../../store";
 
 export default function Login() {
   const { dispatch } = useAppContext();
+  const location = useLocation();
   const history = useHistory();
   const [fieldErrors, setFieldErrors] = useState({});
+
+  const { from: loginRedirectUrl } = location.state || {
+    from: { patname: "/" },
+  };
 
   const onFinish = (values) => {
     async function fn() {
@@ -31,7 +36,7 @@ export default function Login() {
           description: "커플에 오신 것을 환영합니다.",
           icon: <HeartFilled style={{ color: "#108ee9" }} />,
         });
-        history.push("/");
+        history.push(loginRedirectUrl);
       } catch (error) {
         if (error.response) {
           notification.open({
