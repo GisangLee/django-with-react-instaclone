@@ -4,6 +4,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Alert, Form, Input, Button, notification, Card } from "antd";
 import { HeartFilled, FrownOutlined } from "@ant-design/icons";
 import { useAppContext, setToken } from "../../store";
+import { parseErrorMessages } from "../../utils/errorForms";
 
 export default function Login() {
   const { dispatch } = useAppContext();
@@ -49,21 +50,8 @@ export default function Login() {
           console.log(fieldsErrorMessages);
 
           //python  : dict.items()
-          setFieldErrors(
-            Object.entries(fieldsErrorMessages).reduce(
-              (acc, [fieldName, errors]) => {
-                console.log("acc : ", acc);
-                console.log("filedName : ", fieldName);
-                console.log("errors : ", errors);
-                acc[fieldName] = {
-                  validateStatus: "error",
-                  help: errors.join(" "),
-                };
-                return acc;
-              },
-              {}
-            )
-          );
+
+          setFieldErrors(parseErrorMessages(fieldsErrorMessages));
         }
       }
     }

@@ -4,13 +4,13 @@ import AppFooter from "./AppFooter";
 import AppSidebar from "./AppSidebar";
 import "./AppLayout.scss";
 
-function AppLayout({ children }) {
+function AppLayout({ children, sidebar }) {
   return (
     <>
       <div className="app">
         <AppHeader />
         <div className="contents">{children}</div>
-        <AppSidebar />
+        <AppSidebar sidebar={sidebar} />
         <AppFooter />
       </div>
     </>
