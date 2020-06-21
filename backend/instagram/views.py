@@ -4,10 +4,11 @@ from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import permissions, status
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer, CommentSerializer
 
 
 class PostViewSet(ModelViewSet):
@@ -47,3 +48,18 @@ class PostViewSet(ModelViewSet):
         post = self.get_object()
         post.like_user_set.remove(self.request.user)
         return Response(status.HTTP_204_NO_CONTENT)
+
+
+class CommentViewSet(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['post_pk'])
+        return qs
+
+    def perform_create(self, serializer):
+        post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
+        serializer.save(author=self.request.user, post=post)
+        return super().perform_create(serializer)
