@@ -21,6 +21,7 @@ export default function Signup() {
             "커플에 오신 것을 환영합니다. 로그인 페이지로 이동합니다.",
           icon: <HeartFilled style={{ color: "#108ee9" }} />,
         });
+        localStorage.setItem("username", username);
         history.push("/accounts/login");
       } catch (error) {
         if (error.response) {

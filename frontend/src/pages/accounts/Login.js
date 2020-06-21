@@ -30,6 +30,8 @@ export default function Login() {
           data: { token: jwtToken },
         } = response;
 
+        console.log("username: ", username);
+
         dispatch(setToken(jwtToken));
 
         notification.open({

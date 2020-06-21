@@ -30,7 +30,7 @@ class PostViewSet(ModelViewSet):
             Q(author__in=self.request.user.following_set.all())
         )
         qs = qs.filter(created_at__gte=timesince)
-
+        print("qs: ", qs)
         return qs
 
     def perform_create(self, serializer):

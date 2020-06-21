@@ -5,6 +5,7 @@ import About from "./About";
 import AccountRoutes from "./accounts/index";
 import LoginRequiredRoute from "../utils/LoginRequiredRoute";
 import PostNew from "./PostNew";
+import PostModify from "./PostModify";
 
 function Root() {
   return (
@@ -12,6 +13,11 @@ function Root() {
       <LoginRequiredRoute exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
       <LoginRequiredRoute exact path="/posts/new" component={PostNew} />
+      <LoginRequiredRoute
+        exact
+        path="/posts/:postid/modify"
+        component={PostModify}
+      />
       <Route path="/accounts" component={AccountRoutes} />
     </>
   );

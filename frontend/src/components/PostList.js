@@ -4,6 +4,8 @@ import useAxios from "axios-hooks";
 import Post from "./Post";
 import { useAppContext } from "../store";
 import { Alert } from "antd";
+import { useHistory } from "react-router-dom";
+import PostModify from "../pages/PostModify";
 
 function PostList() {
   const {
@@ -12,12 +14,21 @@ function PostList() {
 
   const [postList, setPostList] = useState([]);
 
+  const history = useHistory();
+
   const headers = { Authorization: `JWT ${jwtToken}` };
 
   const [{ data: originPostList, loading, error }, refetch] = useAxios({
     url: "http://localhost:8000/api/posts/",
     headers,
   });
+
+  const [fileList, setFileList] = useState([]);
+  const [previewPhoto, setPreviewPhoto] = useState({
+    visible: false,
+    base64: null,
+  });
+  const [fieldErrors, setFieldError] = useState({});
 
   useEffect(() => {
     setPostList(originPostList);
@@ -46,6 +57,24 @@ function PostList() {
     }
   };
 
+  const handleDelete = async ({ post }) => {
+    const apiUrl = `http://localhost:8000/api/posts/${post.id}/`;
+    const method = "DELETE";
+    console.log("post : ", post);
+    try {
+      await Axios({
+        url: apiUrl,
+        method,
+        headers,
+      });
+      refetch();
+    } catch (error) {}
+  };
+
+  const handleModify = ({ post }) => {
+    const postId = post.id;
+    history.push({ pathname: `/posts/${post.id}/modify`, state: { postId } });
+  };
   return (
     <div>
       {postList && postList.length === 0 && (
@@ -53,7 +82,13 @@ function PostList() {
       )}
       {postList &&
         postList.map((post) => (
-          <Post post={post} key={post.id} handleLike={handleLike} />
+          <Post
+            post={post}
+            key={post.id}
+            handleLike={handleLike}
+            handleModify={handleModify}
+            handleDelete={handleDelete}
+          />
         ))}
     </div>
   );
