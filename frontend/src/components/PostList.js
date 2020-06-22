@@ -68,7 +68,9 @@ function PostList() {
         headers,
       });
       refetch();
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleModify = ({ post }) => {

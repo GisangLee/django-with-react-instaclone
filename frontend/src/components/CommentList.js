@@ -36,11 +36,32 @@ export default function CommentList({ post }) {
       console.error("error: ", error);
     }
   };
+
+  const handleDeleteComment = async ({ comment }) => {
+    const apiUrl = `http://localhost:8000/api/posts/${post.id}/comments/${comment.id}/`;
+    const method = "DELETE";
+    console.log("comment : ", comment);
+    try {
+      await Axios({
+        url: apiUrl,
+        method,
+        headers,
+      });
+      refetch();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       {commentList &&
         commentList.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
+          <Comment
+            key={comment.id}
+            comment={comment}
+            post={post}
+            handleDeleteComment={handleDeleteComment}
+          />
         ))}
 
       <Input.TextArea
